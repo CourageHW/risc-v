@@ -6,7 +6,7 @@ This project is a 5-stage pipelined RISC-V processor core implemented in Verilog
 
 -   **5-Stage Pipeline**: IF, ID, EX, MEM, WB
 -   **RISC-V ISA**: Supports a subset of the RV32I base instruction set.
--   **Data Forwarding**: Not yet implemented (to be added in the future).
+-   **Data Forwarding**: Supported by forwarding_unit.
 -   **Hazard Handling**: Not yet implemented (to be added in the future).
 -   **Vivado Simulation**: Supported via the `run_vivado.sh` script.
 
@@ -40,6 +40,12 @@ This project is a 5-stage pipelined RISC-V processor core implemented in Verilog
 
 To simulate the project, execute the following command in the `riscv_pipeline` directory.
 
+If you want gui (waveform)
+```bash
+./run_vivado.sh -gui
+```
+
+If you want just result (no waveform)
 ```bash
 ./run_vivado.sh
 ```
