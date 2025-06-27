@@ -1,0 +1,7 @@
+# Vivado
+.Xil/
+vivado_sim_project/
+*.log
+*.vcd
+*.wdb
+vivado_pid*.str
