@@ -52,7 +52,4 @@ This script runs Vivado in batch mode and performs the simulation according to t
 -   **Simulation Tool**: Xilinx Vivado
 
 ## 🖼️ Architecture
-
-*The `img/blueprint.png` image will be displayed below.*
-
 ![Blueprint](img/blueprint.png)
