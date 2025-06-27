@@ -1,0 +1,21 @@
+-v /home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/header/defines.sv
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/1.fetch
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/2.decode
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/3.execute
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/4.memory
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/5.writeback
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/6.hazard_processing
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/header
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/testbench
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/vivado_sim_project/riscv_simulation.sim/sim_1/behav/xsim
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/1.fetch
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/2.decode
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/3.execute
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/4.memory
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/5.writeback
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/6.hazard_processing
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src/header
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/src
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/testbench
++incdir+/home/yonggi/Project_verilog/risc-v/riscv_pipeline/vivado_sim_project/riscv_simulation.sim/sim_1/behav/xsim

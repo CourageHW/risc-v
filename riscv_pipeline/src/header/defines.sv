@@ -60,6 +60,13 @@ package defines;
     parameter FUNCT3_BLTU    = 3'b110;
     parameter FUNCT3_BGEU    = 3'b111;
 
+
+    typedef enum logic [1:0] {
+      FW_NONE,    // no forwarding
+      FW_MEM_ALU, // forwarding Mem Stage ALU Result
+      FW_WB_DATA  // forwarding WB Stage Data
+    } fw_sel_e;
+
     // Write Back
     typedef enum logic [1:0] {
       WB_ALU,

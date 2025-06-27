@@ -32,6 +32,7 @@ add_files -fileset sim_1 [list \
     ./src/4.memory/MEM_WB.sv \
     ./src/4.memory/data_memory.sv \
     ./src/5.writeback/write_back_sel.sv \
+    ./src/6.hazard_processing/forwarding_unit.sv \
     ./src/riscv_pipeline_core.sv \
     ./testbench/tb_riscv_pipeline_core.sv \
 ]

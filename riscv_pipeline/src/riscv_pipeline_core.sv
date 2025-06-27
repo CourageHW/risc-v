@@ -8,6 +8,11 @@ module riscv_pipeline_core (
 );
 
   // ================================================= //
+  //           Hazard Processign Signals               //
+  // ================================================= //
+  fw_sel_e forwardA, forwardB;
+
+  // ================================================= //
   //              Fetch Stage Signals                  //
   // ================================================= //
   
@@ -56,15 +61,29 @@ module riscv_pipeline_core (
   logic [DATA_WIDTH-1:0] rd_data1_EX, rd_data2_EX;
   logic [DATA_WIDTH-1:0] ImmVal_EX;
   logic [DATA_WIDTH-1:0] operand1_EX, operand2_EX;
+  logic [DATA_WIDTH-1:0] forwarded_rs1_data, forwarded_rs2_data;
   logic [DATA_WIDTH-1:0] alu_result_EX;
   logic [DATA_WIDTH-1:0] branch_target_adder_EX;
 
   assign funct3_EX = instruction_EX[14:12];
   assign funct7_EX = instruction_EX[30]; // only for ALUControl
 
-	assign operand1_EX = (ALUSrc1_EX) ? pc_EX  : rd_data1_EX;
-	assign operand2_EX = (ALUSrc2_EX) ? ImmVal_EX : rd_data2_EX;
+  always_comb begin
+    unique case(forwardA)
+      FW_NONE   : forwarded_rs1_data = rd_data1_EX; 
+      FW_MEM_ALU: forwarded_rs1_data = alu_result_MEM; 
+      FW_WB_DATA: forwarded_rs1_data = write_back_WB; 
+    endcase
 
+    unique case (forwardB)
+      FW_NONE   : forwarded_rs2_data = rd_data2_EX; 
+      FW_MEM_ALU: forwarded_rs2_data = alu_result_MEM; 
+      FW_WB_DATA: forwarded_rs2_data = write_back_WB; 
+    endcase
+  end
+	
+  assign operand1_EX = (ALUSrc1_EX) ? pc_EX  : forwarded_rs1_data;
+	assign operand2_EX = (ALUSrc2_EX) ? ImmVal_EX : forwarded_rs2_data;
 
   // ================================================= //
   //              Memory Stage Signals                 //
@@ -113,8 +132,32 @@ module riscv_pipeline_core (
 
   logic [DATA_WIDTH-1:0] write_back_WB;
 
+
   //================================================== //
-  //                 Decode Stage                      //
+  //               Hazard Processing                   //
+  //================================================== //
+  forwarding_unit fw_unit_inst (
+    // --- Inputs --- //
+    // ID/EX Stage
+    .rs1_addr_EX(instruction_EX[19:15]),
+    .rs2_addr_EX(instruction_EX[24:20]),
+
+    // EX/MEM Stage
+    .RegWrite_MEM(RegWrite_MEM),
+    .rd_addr_MEM(instruction_MEM[11:7]),
+
+    // MEM/WB Stage
+    .RegWrite_WB(RegWrite_WB),
+    .rd_addr_WB(instruction_WB[11:7]),
+
+    // --- Outputs --- //
+    .forwardA(forwardA),
+    .forwardB(forwardB)
+  );
+
+
+  //================================================== //
+  //                  Fetch Stage                      //
   //================================================== //
   instruction_memory inst_mem_inst (
     .rd_addr_i(pc_IF[INST_MEM_ADDR_WIDTH+1:2]),
