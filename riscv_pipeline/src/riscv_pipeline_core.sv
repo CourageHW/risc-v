@@ -86,20 +86,13 @@ module riscv_pipeline_core (
   assign sign_flag_MEM = alu_result_MEM[DATA_WIDTH-1];
 
   always_comb begin
-    PCSrc_MEM = 1'b0; // 기본값은 분기 안 함
-    if (Branch_MEM) begin // 분기 명령어일 경우에만 조건을 검사
+    PCSrc_MEM = 1'b0; 
+    if (Branch_MEM) begin 
       case (funct3_MEM)
-          // beq (funct3 = 000): Z=1이면 분기
           FUNCT3_BEQ: PCSrc_MEM = zero_flag_MEM;
-          // bne (funct3 = 001): Z=0이면 분기
           FUNCT3_BNE: PCSrc_MEM = ~zero_flag_MEM;
-          // blt (funct3 = 100): N=1이면 분기 (a-b < 0)
           FUNCT3_BLT: PCSrc_MEM = sign_flag_MEM;
-          // bge (funct3 = 101): N=0이면 분기 (a-b >= 0)
           FUNCT3_BGE: PCSrc_MEM = ~sign_flag_MEM;
-          // bltu (funct3 = 110): ALU 결과의 최상위 비트(carry out)가 필요.
-          // bgeu (funct3 = 111): ALU 결과의 최상위 비트(carry out)가 필요.
-          // (참고: 부호 없는 비교를 위해서는 ALU에서 carry_out 신호가 추가로 필요합니다)
           default: PCSrc_MEM = 1'b0;
       endcase
     end

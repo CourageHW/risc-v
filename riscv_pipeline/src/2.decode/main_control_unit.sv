@@ -2,7 +2,6 @@
 
 import defines::*;
 
-// 모듈 이름을 main_control_unit으로 변경하여 일관성을 유지하는 것을 추천합니다.
 module main_control_unit (
     input  logic [6:0]    opcode_i,
 
@@ -25,7 +24,6 @@ module main_control_unit (
 
     always_comb begin
         // --- 1. 모든 신호를 안전한 기본값으로 초기화 ---
-        // 대부분의 명령어는 rs1과 rs2를 사용하므로, 이것이 기본값입니다.
         RegWrite_o = 1'b0;
         WBSel_o    = WB_NONE;
         MemRead_o  = 1'b0;
@@ -43,7 +41,6 @@ module main_control_unit (
                 RegWrite_o = 1'b1;
                 ALUOp_o    = ALUOP_RTYPE;
                 WBSel_o    = WB_ALU;
-                // ALUSrc1=0 (rs1), ALUSrc2=0 (rs2) -> 기본값 사용
             end
 
             OPCODE_ITYPE: begin
@@ -72,8 +69,6 @@ module main_control_unit (
             end
 
             OPCODE_BRANCH: begin
-                // 비교 연산은 rs1, rs2 사용 (ALUSrc1=0, ALUSrc2=0)
-                // 하지만 branch target 주소 계산은 PC + imm (별도 Adder 사용 가정)
                 Branch_o   = 1'b1;
                 ALUOp_o    = ALUOP_BRANCH;
                 ImmSel_o   = IMM_TYPE_B;
@@ -101,15 +96,12 @@ module main_control_unit (
                 WBSel_o    = WB_PC4;
                 RegWrite_o = 1'b1;
                 Jump_o     = 1'b1; // Jump 신호 활성화
-                // PC+4는 별도 Adder에서 계산, 레지스터에 저장
-                // 다음 PC 계산은 이 제어 유닛의 책임이 아님
             end
 
             OPCODE_JALR: begin
                 WBSel_o    = WB_PC4;
                 RegWrite_o = 1'b1;
                 Jump_o     = 1'b1;
-                // 다음 PC 계산은 rs1 + imm (ALU가 수행)
                 ALUSrc2_o  = 1'b1;
                 ALUOp_o    = ALUOP_JUMP;
                 ImmSel_o   = IMM_TYPE_I;

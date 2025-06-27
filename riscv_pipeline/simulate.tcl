@@ -53,9 +53,9 @@ puts "INFO: Running simulation until \$finish..."
 run -all
 
 #puts "INFO: Simulation stopped. Opening waveform GUI..."
-start_gui
+#start_gui
 
 # --- 6. Clean Up ---
 puts "INFO: Simulation finished. Closing project."
-#close_project
-#exit
+close_project
+exit
