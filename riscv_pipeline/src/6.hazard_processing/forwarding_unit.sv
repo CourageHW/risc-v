@@ -33,11 +33,11 @@ module forwarding_unit (
       forwardA = FW_WB_DATA;
     end
     
-    if (RegWrite_MEM && (rd_addr_MEM != 5'b0) && (rd_addr_MEM == rs1_addr_EX)) begin
-      forwardA = FW_MEM_ALU;
+    if (RegWrite_MEM && (rd_addr_MEM != 5'b0) && (rd_addr_MEM == rs2_addr_EX)) begin
+      forwardB = FW_MEM_ALU;
     end
-    else if (RegWrite_WB && (rd_addr_WB != 5'b0) && (rd_addr_WB == rs1_addr_EX)) begin
-      forwardA = FW_WB_DATA;
+    else if (RegWrite_WB && (rd_addr_WB != 5'b0) && (rd_addr_WB == rs2_addr_EX)) begin
+      forwardB = FW_WB_DATA;
     end
   end
 endmodule

@@ -7,10 +7,6 @@ module riscv_pipeline_core (
   input logic rst_n
 );
 
-  // ================================================= //
-  //           Hazard Processign Signals               //
-  // ================================================= //
-  fw_sel_e forwardA, forwardB;
 
   // ================================================= //
   //              Fetch Stage Signals                  //
@@ -53,7 +49,7 @@ module riscv_pipeline_core (
   alu_op_e ALUOp_EX;
   alu_sel_e ALUSel_EX;
   logic ALUSrc1_EX, ALUSrc2_EX, RegWrite_EX, Branch_EX, Jump_EX, MemWrite_EX, MemRead_EX;
-  logic [6:0] funct7_EX;
+  logic funct7_EX;
   logic [2:0] funct3_EX;
   
   logic [DATA_WIDTH-1:0] instruction_EX;
@@ -68,22 +64,6 @@ module riscv_pipeline_core (
   assign funct3_EX = instruction_EX[14:12];
   assign funct7_EX = instruction_EX[30]; // only for ALUControl
 
-  always_comb begin
-    unique case(forwardA)
-      FW_NONE   : forwarded_rs1_data = rd_data1_EX; 
-      FW_MEM_ALU: forwarded_rs1_data = alu_result_MEM; 
-      FW_WB_DATA: forwarded_rs1_data = write_back_WB; 
-    endcase
-
-    unique case (forwardB)
-      FW_NONE   : forwarded_rs2_data = rd_data2_EX; 
-      FW_MEM_ALU: forwarded_rs2_data = alu_result_MEM; 
-      FW_WB_DATA: forwarded_rs2_data = write_back_WB; 
-    endcase
-  end
-	
-  assign operand1_EX = (ALUSrc1_EX) ? pc_EX  : forwarded_rs1_data;
-	assign operand2_EX = (ALUSrc2_EX) ? ImmVal_EX : forwarded_rs2_data;
 
   // ================================================= //
   //              Memory Stage Signals                 //
@@ -133,6 +113,29 @@ module riscv_pipeline_core (
   logic [DATA_WIDTH-1:0] write_back_WB;
 
 
+  // ================================================= //
+  //           Hazard Processign Signals               //
+  // ================================================= //
+  
+  fw_sel_e forwardA, forwardB;
+  
+  always_comb begin
+    unique case(forwardA)
+      FW_NONE   : forwarded_rs1_data = rd_data1_EX; 
+      FW_MEM_ALU: forwarded_rs1_data = alu_result_MEM; 
+      FW_WB_DATA: forwarded_rs1_data = write_back_WB; 
+    endcase
+
+    unique case (forwardB)
+      FW_NONE   : forwarded_rs2_data = rd_data2_EX; 
+      FW_MEM_ALU: forwarded_rs2_data = alu_result_MEM; 
+      FW_WB_DATA: forwarded_rs2_data = write_back_WB; 
+    endcase
+  end
+	
+  assign operand1_EX = (ALUSrc1_EX) ? pc_EX  : forwarded_rs1_data;
+	assign operand2_EX = (ALUSrc2_EX) ? ImmVal_EX : forwarded_rs2_data;
+  
   //================================================== //
   //               Hazard Processing                   //
   //================================================== //
@@ -226,11 +229,11 @@ module riscv_pipeline_core (
 	register_file reg_file_inst (
 		.clk(clk),
 		.rst_n(rst_n),
-		.we(RegWrite_WB),
-		.rd_addr1_i(rs1_addr_ID), // Source register 1 (rs1)
-		.rd_addr2_i(rs2_addr_ID), // Source register 2 (rs2)
-		.wr_addr_i(instruction_WB[11:7]),   // Destination register (rd)
-		.wr_data_i(write_back_WB),          // not yet
+		.we_WB(RegWrite_WB),
+		.wr_addr_WB(instruction_WB[11:7]),   // Destination register (rd)
+		.wr_data_WB(write_back_WB),          
+		.rd_addr1_i(rs1_addr_ID),    // Source register 1 (rs1)
+		.rd_addr2_i(rs2_addr_ID),    // Source register 2 (rs2)
 		.rd_data1_o(rd_data1_ID),    // Output data for rs1
 		.rd_data2_o(rd_data2_ID)     // Output data for rs2
 	);

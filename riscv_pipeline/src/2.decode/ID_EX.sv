@@ -52,7 +52,7 @@ module ID_EX (
 			Jump_EX <= 1'b0; // Default jump disable
 			MemWrite_EX <= 1'b0; // Default memory write disable
 			MemRead_EX <= 1'b0; // Default memory read disable
-			WBSel_EX <= 1'b0; // Default memory to register disable
+			WBSel_EX <= WB_NONE; // Default memory to register disable
 			rd_data1_EX <= '0;
 			rd_data2_EX <= '0;
 			instruction_EX <= '0;
