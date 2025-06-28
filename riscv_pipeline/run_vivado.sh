@@ -4,7 +4,7 @@ clear
 echo "============================================"
 echo "| Starting Vivado Simulation in Batch Mode |"
 echo "============================================"
-
+echo "[INFO] selected mode => "
 if [ "$1" = "-gui" ]; then
     echo "INFO: GUI mode requested. Waveform viewer will open after simulation."
     # Vivado를 실행하며, Tcl 스크립트에 'gui'라는 인자를 전달합니다.
