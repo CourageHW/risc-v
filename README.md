@@ -18,18 +18,19 @@ This project is a 5-stage pipelined RISC-V processor core implemented in Verilog
 ├───img/
 │   └───blueprint.png
 └───riscv_pipeline/
-    ├───run_vivado.sh         # Vivado simulation execution script
-    ├───simulate.tcl          # Vivado Tcl script
-    ├───src/                  # Source code
-    │   ├───program.mem       # Program memory initial values
+    ├───run_vivado.sh              # Vivado simulation execution script
+    ├───simulate.tcl               # Vivado Tcl script
+    ├───src/                       # Source code
+    │   ├───program.mem            # Program memory initial values
     │   ├───riscv_pipeline_core.sv # Top-level module
-    │   ├───1.fetch/          # Fetch Stage modules
-    │   ├───2.decode/         # Decode Stage modules
-    │   ├───3.execute/        # Execute Stage modules
-    │   ├───4.memory/         # Memory Stage modules
-    │   ├───5.writeback/      # Write Back Stage modules
+    │   ├───1.fetch/               # Fetch Stage modules
+    │   ├───2.decode/              # Decode Stage modules
+    │   ├───3.execute/             # Execute Stage modules
+    │   ├───4.memory/              # Memory Stage modules
+    │   ├───5.writeback/           # Write Back Stage modules
+    │   ├───6.hazard_processing    # hazard_processing modules
     │   └───header/
-    │       └───defines.sv    # Global definitions
+    │       └───defines.sv         # Global definitions
     └───testbench/
         └───tb_riscv_pipeline_core.sv # Testbench
 ```
