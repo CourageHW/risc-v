@@ -12,7 +12,7 @@ module tb_riscv_pipeline_core;
     initial begin clk = 0; forever #(CLK_PERIOD/2) clk = ~clk; end
 
     initial begin
-        $display("INFO: Forwarding-only Test Started (No Stall Needed)");
+        $display("[INFO] Forwarding-only Test Started (No Stall Needed)");
 
         // --- 1. Reset ---
         rst_n = 1'b0;
@@ -20,12 +20,12 @@ module tb_riscv_pipeline_core;
         rst_n = 1'b1;
 
         // --- 2. Run program ---
-        $display("INFO: Running forwarding-only program...");
+        $display("[INFO] Running forwarding-only program...");
         repeat(15) @(posedge clk); // 충분한 시간 제공
         #1;
 
         // --- 3. Final Verification ---
-        $display("INFO: Verifying final register states...");
+        $display("[INFO] Verifying final register states...");
 
         assert(dut.reg_file_inst.registers[1] == 10)
             else $fatal(1, "[FAIL] x1 should be 10");
