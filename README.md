@@ -3,7 +3,7 @@
 This project is a 5-stage pipelined RISC-V processor core implemented in Verilog HDL. It consists of five stages: Instruction Fetch (IF), Instruction Decode (ID), Execute (EX), Memory Access (MEM), and Write Back (WB).
 
 [ RISC-V Ver.2 ] structural improvement
-https://github.com/CourageHW/risc-v
+(https://github.com/CourageHW/risc-v-ver.2.0)
 ## 🚀 Key Features
 
 -   **5-Stage Pipeline**: IF, ID, EX, MEM, WB
